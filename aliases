@@ -1,0 +1,19 @@
+
+DEVC=site_dev_1
+
+alias dev='docker exec -it $DEVC bash'
+
+alias composer='docker exec -it $DEVC composer'
+alias init55='composer create-project --prefer-dist laravel/laravel /app/src 5.5.*'
+alias dal='composer dump-autoload'
+
+alias php='docker exec -it $DEVC php'
+
+alias phpunit='php /app/vendor/bin/phpunit'
+alias phpspec='php /app/vendor/bin/phpspec'
+
+alias artisan='php artisan'
+alias tinker='artisan tinker'
+
+alias nrd='npm run dev'
+alias nrw='npm run watch'
