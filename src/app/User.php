@@ -26,4 +26,13 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * 获得文章列表。
+     */
+    public function articles()
+    {
+        return $this->hasMany('App\Article');
+    }
+
 }
