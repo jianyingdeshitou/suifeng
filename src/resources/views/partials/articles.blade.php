@@ -7,26 +7,29 @@
 @endauth
 </div>
 <div>&nbsp;</div>
+
 <div>
-<ul>
 @foreach ($articles as $article)
-    <li>
-        <a href=""> {{ $article->title }} </a>
+    <div>
+        <a href=""><h3> {{ $article->title }} </h3></a>
         ({{ $article->updated_at }})
-		@can('update', $article)
-		    <a href="{{ route('home') }}" class="btn btn-primary">
-		    	<span class="glyphicon glyphicon-edit"></span>
-		    	&nbsp;编辑
-		    </a>
-		@endcan
-		@can('delete', $article)
-		    <a href="{{ route('home') }}" class="btn btn-primary">
-		    	<span class="glyphicon glyphicon-remove-sign"></span>
-		    	&nbsp;删除
-		    </a>
-		@endcan
-    </li>
+    </div>
+    <div class='text-right'>
+	@can('update', $article)
+	    <a href="{{ route('home') }}" class="btn btn-primary">
+	    	<span class="glyphicon glyphicon-edit"></span>
+	    	&nbsp;编辑
+	    </a>
+	@endcan
+	@can('delete', $article)
+	    <a href="{{ route('home') }}" class="btn btn-danger">
+	    	<span class="glyphicon glyphicon-remove-sign"></span>
+	    	&nbsp;删除
+	    </a>
+	@endcan
+	</div>
+    <hr>
 @endforeach
-</ul>
+</div>
 {{ $articles->links() }}
 </div>
