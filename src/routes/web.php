@@ -12,7 +12,9 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+	$list = App\Article::with('user')->orderBy('created_at', 'desc')
+            ->paginate(15);
+    return view('welcome')->with(['articles' => $list]);
 });
 
 Auth::routes();
