@@ -14,16 +14,7 @@
                         </div>
                     @endif
                     
-                    <ul>
-                    @foreach ($articles as $article)
-                        <li>
-                            <a href=""> {{ $article->title }} </a>
-                            <span class="glyphicon glyphicon-user"></span>
-                            {{ $article->user->name }}
-                        </li>
-                    @endforeach
-                    </ul>
-                    {{ $articles->links() }}
+                @include('partials.articles')
                 </div>
             </div>
         </div>

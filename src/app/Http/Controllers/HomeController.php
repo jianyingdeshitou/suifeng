@@ -26,7 +26,7 @@ class HomeController extends Controller
     public function index()
     {
         $articles = Article::authorized()
-            ->orderBy('created_at', 'desc')
+            ->orderBy('updated_at', 'desc')
             ->paginate(15);
         return view('home')->with(['articles' => $articles]);
     }
