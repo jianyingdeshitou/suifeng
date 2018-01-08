@@ -1,11 +1,6 @@
 <div>
 @auth()
-    @include('partials.html.btn_primary', 
-    	[
-    		'url' => route('articles.create'),
-    		'icon' =>  '<span class="glyphicon glyphicon-plus-sign"></span> ',
-    		'text' => '增加',
-    	])
+	@include('article.partials.btn_add')
 @endauth
 </div>
 
