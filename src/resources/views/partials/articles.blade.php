@@ -39,7 +39,7 @@
 			{{-- 删除按钮 --}}
 			@include('partials.form.btn_delete', 
 			[
-				'url' => route('articles.create'),
+				'url' => route('articles.destroy', ['id' => $article->id]),
 				'icon' => '<span class="glyphicon glyphicon-remove-sign"></span> ',
 				'text' => '删除',
 			])

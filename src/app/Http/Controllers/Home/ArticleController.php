@@ -111,6 +111,12 @@ class ArticleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $article = Article::findOrFail($id);
+        if (Auth::user()->can('delete', $article)) {
+            if ($article->delete()) {
+                return redirect(route('articles.index'));
+            }
+        }
+        return redirect()->back()->withInput()->withErrors('删除失败！');
     }
 }
