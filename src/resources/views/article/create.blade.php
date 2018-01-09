@@ -13,6 +13,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
+                    
                     {{-- 新增文章 --}}
                     {!! Form::open(['route' => 'articles.store', 'class' => 'form-horizontal']) !!} 
                         {{-- 标题 --}}
@@ -23,7 +24,12 @@
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-2">
                                 {{-- 新增按钮 --}}
-                                {!! Form::submit('新增', ['class' => 'btn btn-primary']) !!}
+                                @include('partials.form.btn_submit', 
+                                    [
+                                        'icon' => '<span class="glyphicon glyphicon-plus-sign"></span> ',
+                                        'text' => '新增',
+                                        'class' => 'btn btn-primary ',
+                                    ])
                             </div>
                         </div>
                     {!! Form::close() !!} 

@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    @include('partials.articles')
+                    @include('article.partials.articles')
                  </div>
             </div>
         </div>

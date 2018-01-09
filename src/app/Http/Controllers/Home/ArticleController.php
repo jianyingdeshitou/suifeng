@@ -60,11 +60,10 @@ class ArticleController extends Controller
                 'content' => $request->input('content'),
                 'user_id' => Auth::id(),
             ]);
-        // 将数据保存到数据库，通过判断保存结果，控制页面进行不同跳转
+
         if ($article->save()) {
-            return redirect(route('articles.index')); // 保存成功，跳转到 文章管理 页
+            return redirect(route('articles.index'));
         } else {
-            // 保存失败，跳回来路页面，保留用户的输入，并给出提示
             return redirect()->back()->withInput()->withErrors('保存失败！');
         }
     }
@@ -77,7 +76,8 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        //
+        $article = Article::with('user')->findOrFail($id);
+        return view('article.show')->with(['article' => $article]);
     }
 
     /**
