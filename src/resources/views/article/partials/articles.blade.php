@@ -31,7 +31,7 @@
 			{{-- 编辑按钮 --}}
 			@include('partials.html.btn_primary', 
 			[
-				'url' => route('articles.update', ['id' => $article->id]),
+				'url' => route('articles.edit', ['id' => $article->id]),
 				'icon' => '<span class="glyphicon glyphicon-edit"></span> ',
 				'text' => '编辑',
 			])

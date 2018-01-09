@@ -88,19 +88,30 @@ class ArticleController extends Controller
      */
     public function edit($id)
     {
-        //
+        $article = Article::findOrFail($id);
+        return view('article.edit')->with(['article' => $article]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\ArticleRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ArticleRequest $request, $id)
     {
-        //
+        $article = Article::findOrFail($id);
+        if (Auth::user()->can('update', $article)) {
+            $article->fill([
+                'title' => $request->input('title'),
+                'content' => $request->input('content'),
+            ]);
+            if ($article->update()) {
+                return redirect(route('articles.index'));
+            }
+        }
+        return redirect()->back()->withInput()->withErrors('更新失败！');
     }
 
     /**
