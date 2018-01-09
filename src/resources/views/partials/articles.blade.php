@@ -1,6 +1,13 @@
 <div>
+{{-- 已登录 --}}
 @auth()
-	@include('article.partials.btn_add')
+	{{-- 新增按钮 --}}
+	@include('partials.html.btn_primary', 
+	[
+		'url' => route('articles.create'),
+		'icon' =>  '<span class="glyphicon glyphicon-plus-sign"></span> ',
+		'text' => '新增',
+	])
 @endauth
 </div>
 
@@ -10,16 +17,32 @@
 	<div>
 	@foreach ($articles as $article)
 	    <div>
+	    	{{-- 标题 --}}
 	        <a href=""><h3> {{ $article->title }} </h3></a>
+	        {{-- 更新时间 --}}
 	        ({{ $article->updated_at }})
 	    </div>
 	    
 	    <div class='text-right'>
+    	{{-- 具有更新权限 --}}
 		@can('update', $article)
-			@include('article.partials.btn_edit')
+			{{-- 编辑按钮 --}}
+			@include('partials.html.btn_primary', 
+			[
+				'url' => route('articles.create'),
+				'icon' => '<span class="glyphicon glyphicon-edit"></span> ',
+				'text' => '编辑',
+			])
 		@endcan
+		{{-- 具有删除权限 --}}
 		@can('delete', $article)
-			@include('article.partials.btn_delete')
+			{{-- 删除按钮 --}}
+			@include('partials.form.btn_delete', 
+			[
+				'url' => route('articles.create'),
+				'icon' => '<span class="glyphicon glyphicon-remove-sign"></span> ',
+				'text' => '删除',
+			])
 		@endcan
 		</div>
 	    <hr>
