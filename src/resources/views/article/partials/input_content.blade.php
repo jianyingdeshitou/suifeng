@@ -6,7 +6,7 @@
             [
                 'class' => 'form-control', 
                 'placeholder' => '请输入内容',
-                'row' => '10',
+                'rows' => '10',
             ]) !!}
         {{--错误信息--}}
         @if ($errors->has($id))

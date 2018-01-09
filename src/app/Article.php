@@ -8,6 +8,13 @@ use Illuminate\Support\Facades\Auth;
 class Article extends Model
 {
     /**
+     * 不可被批量赋值的属性。
+     *
+     * @var array
+     */
+    protected $guarded = ['id', 'created_at', 'updated_at'];
+
+    /**
      * 获得所属的用户。
      */
     public function user()
