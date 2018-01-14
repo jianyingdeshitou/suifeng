@@ -15,11 +15,9 @@
                     @endif
                     
                     {{-- 新增文章 --}}
-                    {!! Form::open(['route' => 'articles.store', 'class' => 'form-horizontal']) !!} 
-                        {{-- 标题 --}}
-                        @include('article.partials.input_title')
-                        {{-- 内容 --}}
-                        @include('article.partials.input_content')
+                    {!! Form::open(['route' => $route_store, 'class' => 'form-horizontal']) !!} 
+                        {{-- input fields --}}
+                        @include('article.partials.input_article')
                         {{-- 按钮 --}}
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-2">

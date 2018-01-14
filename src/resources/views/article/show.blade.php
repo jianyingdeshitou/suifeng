@@ -30,7 +30,7 @@
                         {{-- 编辑按钮 --}}
                         @include('partials.html.btn_primary', 
                         [
-                            'url' => route('articles.edit', ['id' => $article->id]),
+                            'url' => route($route_edit, ['id' => $article->id]),
                             'icon' => '<span class="glyphicon glyphicon-edit"></span> ',
                             'text' => '编辑',
                         ])
@@ -40,7 +40,7 @@
                         {{-- 删除按钮 --}}
                         @include('partials.form.btn_delete', 
                         [
-                            'url' => route('articles.destroy', ['id' => $article->id]),
+                            'url' => route($route_destroy, ['id' => $article->id]),
                             'icon' => '<span class="glyphicon glyphicon-remove-sign"></span> ',
                             'text' => '删除',
                         ])

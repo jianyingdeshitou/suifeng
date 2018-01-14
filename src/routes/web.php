@@ -12,15 +12,16 @@
 */
 
 Route::get('/', function () {
-	$articles = App\Article::orderBy('updated_at', 'desc')
-            ->paginate(15);
-    return view('welcome')->with(['articles' => $articles]);
+	return redirect(route('article.index'));
 });
 
 Auth::routes();
 
+Route::resource('article', 'ArticleController');
+
 Route::get('/home', 'HomeController@index')->name('home');
 
+
 Route::prefix('home')->namespace('Home')->group( function () {
-	Route::resource('articles', 'ArticleController');
+	Route::resource('my-article', 'ArticleController');
 });

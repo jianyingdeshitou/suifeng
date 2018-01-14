@@ -18,7 +18,12 @@
 	@foreach ($articles as $article)
 	    <div>
 	    	{{-- 标题 --}}
-	        <a href=""><h3> {{ $article->title }} </h3></a>
+			@php
+				@php $id='content'; @endphp
+			@endphp
+	        <a href="{{ route('articles.show', ['id' => $article->id]) }}">
+	        	<h3> {{ $article->title }} </h3>
+	        </a>
 	        {{-- 更新时间 --}}
 	        ({{ $article->updated_at }})
 	    </div>
@@ -29,7 +34,7 @@
 			{{-- 编辑按钮 --}}
 			@include('partials.html.btn_primary', 
 			[
-				'url' => route('articles.create'),
+				'url' => route('articles.edit', ['id' => $article->id]),
 				'icon' => '<span class="glyphicon glyphicon-edit"></span> ',
 				'text' => '编辑',
 			])

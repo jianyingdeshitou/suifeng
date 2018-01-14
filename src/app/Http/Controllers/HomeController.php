@@ -25,9 +25,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $articles = Article::authorized()
-            ->orderBy('updated_at', 'desc')
-            ->paginate(15);
-        return view('home')->with(['articles' => $articles]);
+        return redirect(route('my-article.index'));
     }
 }
