@@ -93,6 +93,7 @@ class ArticleController extends Controller
      */
     public function edit($id)
     {
+        if (Auth::guest()) abort(404);
         $article = Article::findOrFail($id);
         return view('article.edit')->with([
             'article' => $article,
