@@ -15,11 +15,9 @@
                     @endif
                     
                     {{-- 编辑文章 --}}
-                    {!! Form::model($article, ['route' => ['articles.update', $article->id], 'method'=>'PUT','class' => 'form-horizontal']) !!} 
-                        {{-- 标题 --}}
-                        @include('article.partials.input_title')
-                        {{-- 内容 --}}
-                        @include('article.partials.input_content')
+                    {!! Form::model($article, ['route' => [$route_update, $article->id], 'method'=>'PUT','class' => 'form-horizontal']) !!} 
+                        {{-- input fields --}}
+                        @include('article.partials.input_article')
                         {{-- 按钮 --}}
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-2">

@@ -4,7 +4,7 @@
 	{{-- 新增按钮 --}}
 	@include('partials.html.btn_primary', 
 	[
-		'url' => route('articles.create'),
+		'url' => route($route_create),
 		'icon' =>  '<span class="glyphicon glyphicon-plus-sign"></span> ',
 		'text' => '新增',
 	])
@@ -18,7 +18,7 @@
 	@foreach ($articles as $article)
 	    <div>
 	    	{{-- 标题 --}}
-	        <a href="{{ route('articles.show', ['id' => $article->id]) }}">
+	        <a href="{{ route($route_show, ['id' => $article->id]) }}">
 	        	<h3> {{ $article->title }} </h3>
 	        </a>
 	        {{-- 更新时间 --}}
@@ -31,7 +31,7 @@
 			{{-- 编辑按钮 --}}
 			@include('partials.html.btn_primary', 
 			[
-				'url' => route('articles.edit', ['id' => $article->id]),
+				'url' => route($route_edit, ['id' => $article->id]),
 				'icon' => '<span class="glyphicon glyphicon-edit"></span> ',
 				'text' => '编辑',
 			])
@@ -41,7 +41,7 @@
 			{{-- 删除按钮 --}}
 			@include('partials.form.btn_delete', 
 			[
-				'url' => route('articles.destroy', ['id' => $article->id]),
+				'url' => route($route_destroy, ['id' => $article->id]),
 				'icon' => '<span class="glyphicon glyphicon-remove-sign"></span> ',
 				'text' => '删除',
 			])

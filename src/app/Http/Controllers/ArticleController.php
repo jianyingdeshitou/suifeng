@@ -1,34 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\Home;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 use App\Article;
-use App\Http\Requests\ArticleRequest;
 
 class ArticleController extends Controller
 {
-    protected $route_index = 'my-article.index';
-    protected $route_create = 'my-article.create';
-    protected $route_store = 'my-article.store';
-    protected $route_show = 'my-article.show';
-    protected $route_edit = 'my-article.edit';
-    protected $route_update = 'my-article.update';
-    protected $route_destroy = 'my-article.destroy';
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
+    protected $route_index = 'article.index';
+    protected $route_create = 'article.create';
+    protected $route_store = 'article.store';
+    protected $route_show = 'article.show';
+    protected $route_edit = 'article.edit';
+    protected $route_update = 'article.update';
+    protected $route_destroy = 'article.destroy';
     /**
      * Display a listing of the resource.
      *
@@ -36,16 +23,16 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::authorized()
-            ->orderBy('updated_at', 'desc')
-            ->paginate(15);
-       return view('article.index')->with([
-            'articles' => $articles,
-            'route_create' => $this->route_create,
-            'route_show' => $this->route_show,
-            'route_edit' => $this->route_edit,
-            'route_destroy' => $this->route_destroy,
-        ]);
+        $articles = Article::orderBy('updated_at', 'desc')
+                ->paginate(15);
+        return view('article.index')
+            ->with([
+                'articles' => $articles,
+                'route_create' => $this->route_create,
+                'route_show' => $this->route_show,
+                'route_edit' => $this->route_edit,
+                'route_destroy' => $this->route_destroy,
+            ]);
     }
 
     /**
@@ -55,17 +42,17 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        //
+        if (Auth::guest()) abort(404);
         return view('article.create')->with(['route_store' => $this->route_store]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  App\Http\Requests\ArticleRequest  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ArticleRequest $request)
+    public function store(Request $request)
     {
         $article = new Article;
         $article -> fill(
@@ -106,6 +93,7 @@ class ArticleController extends Controller
      */
     public function edit($id)
     {
+        if (Auth::guest()) abort(404);
         $article = Article::findOrFail($id);
         return view('article.edit')->with([
             'article' => $article,
@@ -116,11 +104,11 @@ class ArticleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  App\Http\Requests\ArticleRequest  $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ArticleRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $article = Article::findOrFail($id);
         if (Auth::user()->can('update', $article)) {
