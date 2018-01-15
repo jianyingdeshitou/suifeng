@@ -16,12 +16,14 @@
                     
                     <div>
                         <span class="glyphicon glyphicon-user"></span>
-                        <span>{{ $article->user->name }}</span> |
-                        <span>{{ $article->updated_at }}</span>
+                        <span>{{ $article->user->name }}</span> 
+                        @isset ($article->published_at)
+                          | <span>{{ $article->published_at }}</span>
+                        @endisset
                     </div>
                     <br>
                     <div>
-                        {{ $article->content }}
+                        {!! nl2br(e($article->content)) !!}
                     </div>
                     <hr>
                     <div class="text-right">
