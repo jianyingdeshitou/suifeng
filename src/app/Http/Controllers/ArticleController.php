@@ -62,6 +62,7 @@ class ArticleController extends Controller
                 'title' => $request->input('title'),
                 'content' => $request->input('content'),
                 'user_id' => Auth::id(),
+                'published' => $request->input('published'),
             ]);
 
         if ($article->save()) {
@@ -117,6 +118,7 @@ class ArticleController extends Controller
             $article->fill([
                 'title' => $request->input('title'),
                 'content' => $request->input('content'),
+                'published' => $request->input('published'),
             ]);
             if ($article->update()) {
                 return redirect(route($this->route_show, ['id' => $id]));
