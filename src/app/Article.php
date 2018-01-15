@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class Article extends Model
 {
@@ -32,4 +33,13 @@ class Article extends Model
         return $query->where('user_id', Auth::id());
     }
 
+    /**
+     * 限制查询只包括发布的文章。
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopePublished($query)
+    {
+        return $query->where('published_at', '<=', Carbon::now());
+    }
 }

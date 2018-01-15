@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Article;
+use App\Http\Requests\ArticleRequest;
 
 class ArticleController extends Controller
 {
@@ -23,8 +24,9 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::orderBy('updated_at', 'desc')
-                ->paginate(15);
+        $articles = Article::published()
+            ->orderBy('published_at', 'desc')
+            ->paginate(15);
         return view('article.index')
             ->with([
                 'articles' => $articles,
@@ -49,10 +51,10 @@ class ArticleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\ArticleRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ArticleRequest $request)
     {
         $article = new Article;
         $article -> fill(
@@ -104,11 +106,11 @@ class ArticleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\ArticleRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ArticleRequest $request, $id)
     {
         $article = Article::findOrFail($id);
         if (Auth::user()->can('update', $article)) {

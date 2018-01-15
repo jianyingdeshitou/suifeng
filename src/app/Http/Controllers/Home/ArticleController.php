@@ -36,8 +36,8 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::authorized()
-            ->orderBy('updated_at', 'desc')
+        $articles = Article::authorized()->published()
+            ->orderBy('published_at', 'desc')
             ->paginate(15);
        return view('article.index')->with([
             'articles' => $articles,
