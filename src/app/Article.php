@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use \Illuminate\Database\Eloquent\Builder;
 
 class Article extends Model
 {
@@ -14,6 +15,17 @@ class Article extends Model
      * @var array
      */
     protected $guarded = ['id', 'created_at', 'updated_at'];
+
+    /**
+     * 应被转换为日期的属性。
+     *
+     * @var array
+     */
+    // protected $dates = [
+    //     'created_at',
+    //     'updated_at',
+    //     'published_at'
+    // ];
 
     /**
      * 获得所属的用户。
@@ -28,7 +40,7 @@ class Article extends Model
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeAuthorized($query)
+    public function scopeAuthorized(Builder $query)
     {
         return $query->where('user_id', Auth::id());
     }
@@ -38,9 +50,22 @@ class Article extends Model
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopePublished($query)
+    public function scopePublished(Builder $query)
     {
         return $query->whereNotNull('published_at')
             ->where('published_at', '<=', Carbon::now());
+    }
+
+    public function setPublishedAttribute($value){
+        $this->published_at = (bool) $value 
+            ? Carbon::now() : null;
+    }
+
+    public function getPublishedAttribute() {
+        if (isset($this->published_at) 
+            && $this->published_at <= Carbon::now()) {
+            return true;
+        }
+        return false;
     }
 }
