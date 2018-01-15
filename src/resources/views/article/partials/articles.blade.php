@@ -21,8 +21,12 @@
 	        <a href="{{ route($route_show, ['id' => $article->id]) }}">
 	        	<h3> {{ $article->title }} </h3>
 	        </a>
-	        {{-- 更新时间 --}}
-	        ({{ $article->updated_at }})
+	        @isset ($article->published_at)
+	        	<em>({{ $article->published_at }})</em>
+	        @endisset
+            <p>
+                {{ str_limit($article->content) }}
+            </p>
 	    </div>
 	    
 	    <div class='text-right'>

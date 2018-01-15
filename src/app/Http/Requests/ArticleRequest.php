@@ -25,6 +25,8 @@ class ArticleRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
+            'content' => 'required',
+            'published' => 'required|boolean',
         ];
     }
 }

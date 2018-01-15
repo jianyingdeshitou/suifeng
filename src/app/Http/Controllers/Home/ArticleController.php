@@ -37,7 +37,7 @@ class ArticleController extends Controller
     public function index()
     {
         $articles = Article::authorized()
-            ->orderBy('updated_at', 'desc')
+            ->orderBy('published_at', 'desc')
             ->paginate(15);
        return view('article.index')->with([
             'articles' => $articles,
@@ -73,6 +73,7 @@ class ArticleController extends Controller
                 'title' => $request->input('title'),
                 'content' => $request->input('content'),
                 'user_id' => Auth::id(),
+                'published' => $request->input('published'),
             ]);
 
         if ($article->save()) {
@@ -127,6 +128,7 @@ class ArticleController extends Controller
             $article->fill([
                 'title' => $request->input('title'),
                 'content' => $request->input('content'),
+                'published' => $request->input('published'),
             ]);
             if ($article->update()) {
                 return redirect(route($this->route_show, ['id' => $id]));

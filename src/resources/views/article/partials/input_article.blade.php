@@ -38,3 +38,27 @@
         @endif
     </div>
 </div>
+
+{{-- published --}}
+@php @endphp
+@php
+    $id='published'; 
+    $published = isset($article) ? $article->published : false;
+@endphp
+<div class="form-group {{ $errors->has($id) ? ' has-error' : '' }}">
+    <div class="col-md-8 col-md-offset-2">
+        <label class="radio-inline">
+            {{ Form::radio('published', '1', $published) }} 发布
+        </label>
+        <label class="radio-inline">
+            {{ Form::radio('published', '0', !$published) }} 不发布
+        </label>
+        {{--错误信息--}}
+        @if ($errors->has($id))
+            <span class="help-block">
+                <strong>{{ $errors->first($id) }}</strong>
+            </span>
+        @endif
+    </div>
+</div>
+

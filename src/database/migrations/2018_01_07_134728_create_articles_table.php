@@ -17,8 +17,9 @@ class CreateArticlesTable extends Migration
             $table->increments('id');
             $table->string('title')->comment('标题');
             $table->text('content')->nullable()->comment('内容');
-            $table->integer('user_id')->comment('用户id');
+            $table->unsignedInteger('user_id')->comment('用户id');
             $table->timestamps();
+            $table->timestamp('published_at')->nullable()->index();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
