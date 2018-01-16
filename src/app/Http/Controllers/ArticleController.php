@@ -44,8 +44,10 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        if (Auth::guest()) abort(404);
-        return view('article.create')->with(['route_store' => $this->route_store]);
+        if ($this->canCreate()) {
+            return view('article.create')->with(['route_store' => $this->route_store]);
+        }
+        abort(404);
     }
 
     /**
@@ -56,20 +58,12 @@ class ArticleController extends Controller
      */
     public function store(ArticleRequest $request)
     {
-        $article = new Article;
-        $article -> fill(
-            [
-                'title' => $request->input('title'),
-                'content' => $request->input('content'),
-                'user_id' => Auth::id(),
-                'published' => $request->input('published'),
-            ]);
-
-        if ($article->save()) {
-            return redirect(route($this->route_index));
-        } else {
-            return redirect()->back()->withInput()->withErrors('保存失败！');
+        if ($this->canCreate()) {
+            if (Article::storeRequest($request)) {
+                return redirect(route($this->route_index));
+            }
         }
+        return redirect()->back()->withInput()->withErrors('保存失败！');
     }
 
     /**
@@ -96,12 +90,14 @@ class ArticleController extends Controller
      */
     public function edit($id)
     {
-        if (Auth::guest()) abort(404);
         $article = Article::findOrFail($id);
-        return view('article.edit')->with([
-            'article' => $article,
-            'route_update' => $this->route_update,
-        ]);
+        if ($this->canUpdate($article)) {
+            return view('article.edit')->with([
+                'article' => $article,
+                'route_update' => $this->route_update,
+            ]);
+        }
+        abort(404);
     }
 
     /**
@@ -114,13 +110,8 @@ class ArticleController extends Controller
     public function update(ArticleRequest $request, $id)
     {
         $article = Article::findOrFail($id);
-        if (Auth::user()->can('update', $article)) {
-            $article->fill([
-                'title' => $request->input('title'),
-                'content' => $request->input('content'),
-                'published' => $request->input('published'),
-            ]);
-            if ($article->update()) {
+        if ($this->canUpdate($article)) {
+            if ($article->updateRequest($request)) {
                 return redirect(route($this->route_show, ['id' => $id]));
             }
         }
@@ -136,11 +127,35 @@ class ArticleController extends Controller
     public function destroy($id)
     {
         $article = Article::findOrFail($id);
-        if (Auth::user()->can('delete', $article)) {
+        if ($this->canDelete($article)) {
             if ($article->delete()) {
                 return redirect(route($this->route_index));
             }
         }
         return redirect()->back()->withInput()->withErrors('删除失败！');
+    }
+
+    /**
+     * 判断当前用户是否可以创建文章
+     * @return [boolean] [能，不能]
+     */
+    public function canCreate(){
+        return Auth::check() && Auth::user()->can('create', Article::class);
+    }
+
+    /**
+     * 判断当前用户是否可以更新文章
+     * @return [boolean] [能，不能]
+     */
+    public function canUpdate(Article $article){
+        return Auth::check() && Auth::user()->can('update', $article);
+    }
+
+    /**
+     * 判断当前用户是否可以删除文章
+     * @return [boolean] [能，不能]
+     */
+    public function canDelete(Article $article){
+        return Auth::check() && Auth::user()->can('delete', $article);
     }
 }

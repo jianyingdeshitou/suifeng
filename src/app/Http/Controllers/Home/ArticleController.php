@@ -55,8 +55,10 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        //
-        return view('article.create')->with(['route_store' => $this->route_store]);
+        if (Auth::user()->can('create', Article::class)) {
+            return view('article.create')->with(['route_store' => $this->route_store]);
+        }
+        abort(404);
     }
 
     /**
@@ -67,20 +69,12 @@ class ArticleController extends Controller
      */
     public function store(ArticleRequest $request)
     {
-        $article = new Article;
-        $article -> fill(
-            [
-                'title' => $request->input('title'),
-                'content' => $request->input('content'),
-                'user_id' => Auth::id(),
-                'published' => $request->input('published'),
-            ]);
-
-        if ($article->save()) {
-            return redirect(route($this->route_index));
-        } else {
-            return redirect()->back()->withInput()->withErrors('保存失败！');
+        if (Auth::user()->can('create', Article::class)) {
+            if (Article::storeRequest($request)) {
+                return redirect(route($this->route_index));
+            }
         }
+        return redirect()->back()->withInput()->withErrors('保存失败！');
     }
 
     /**
@@ -108,10 +102,13 @@ class ArticleController extends Controller
     public function edit($id)
     {
         $article = Article::findOrFail($id);
-        return view('article.edit')->with([
-            'article' => $article,
-            'route_update' => $this->route_update,
-        ]);
+        if (Auth::user()->can('update', $article)) {
+            return view('article.edit')->with([
+                'article' => $article,
+                'route_update' => $this->route_update,
+            ]);
+        }
+        abort(404);
     }
 
     /**
@@ -125,12 +122,7 @@ class ArticleController extends Controller
     {
         $article = Article::findOrFail($id);
         if (Auth::user()->can('update', $article)) {
-            $article->fill([
-                'title' => $request->input('title'),
-                'content' => $request->input('content'),
-                'published' => $request->input('published'),
-            ]);
-            if ($article->update()) {
+            if ($article->updateRequest($request)) {
                 return redirect(route($this->route_show, ['id' => $id]));
             }
         }
