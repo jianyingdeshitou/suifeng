@@ -8,11 +8,8 @@
                 <div class="panel-heading"><h2>{{ $article->title }}</h2></div>
 
                 <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+                    @include('partials.html.alert_success')
+                    @include('partials.html.alert_errors')
                     
                     <div>
                         <span class="glyphicon glyphicon-user"></span>

@@ -17,6 +17,7 @@ class ArticleController extends Controller
     protected $route_edit = 'article.edit';
     protected $route_update = 'article.update';
     protected $route_destroy = 'article.destroy';
+
     /**
      * Display a listing of the resource.
      *
@@ -45,7 +46,8 @@ class ArticleController extends Controller
     public function create()
     {
         if ($this->canCreate()) {
-            return view('article.create')->with(['route_store' => $this->route_store]);
+            return view('article.create')
+                ->with(['route_store' => $this->route_store]);
         }
         abort(404);
     }
@@ -60,10 +62,12 @@ class ArticleController extends Controller
     {
         if ($this->canCreate()) {
             if (Article::storeRequest($request)) {
-                return redirect(route($this->route_index));
+                return redirect()->route($this->route_index)
+                    ->withSuccess($article->title.' 保存成功！');
             }
         }
-        return redirect()->back()->withInput()->withErrors('保存失败！');
+        return redirect()->back()->withInput()
+            ->withErrors($article->title.' 保存失败！');
     }
 
     /**
@@ -112,10 +116,12 @@ class ArticleController extends Controller
         $article = Article::findOrFail($id);
         if ($this->canUpdate($article)) {
             if ($article->updateRequest($request)) {
-                return redirect(route($this->route_show, ['id' => $id]));
+                return redirect()->route($this->route_show, ['id' => $id])
+                    ->withSuccess($article->title.' 更新成功！');
             }
         }
-        return redirect()->back()->withInput()->withErrors('更新失败！');
+        return redirect()->back()->withInput()
+            ->withErrors($article->title.' 更新失败！');
     }
 
     /**
@@ -129,10 +135,12 @@ class ArticleController extends Controller
         $article = Article::findOrFail($id);
         if ($this->canDelete($article)) {
             if ($article->delete()) {
-                return redirect(route($this->route_index));
+                 return redirect()->route($this->route_index)
+                    ->withSuccess($article->title.' 删除成功！');
             }
         }
-        return redirect()->back()->withInput()->withErrors('删除失败！');
+        return redirect()->back()->withInput()
+            ->withErrors($article->title.' 删除失败！');
     }
 
     /**

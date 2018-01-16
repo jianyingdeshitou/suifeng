@@ -8,12 +8,6 @@
                 <div class="panel-heading"><h2>Edit Article</h2></div>
 
                 <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-                    
                     {{-- 编辑文章 --}}
                     {!! Form::model($article, ['route' => [$route_update, $article->id], 'method'=>'PUT','class' => 'form-horizontal']) !!} 
                         {{-- input fields --}}

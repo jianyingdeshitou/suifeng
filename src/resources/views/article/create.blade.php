@@ -8,12 +8,6 @@
                 <div class="panel-heading"><h2>New Article</h2></div>
 
                 <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-                    
                     {{-- 新增文章 --}}
                     {!! Form::open(['route' => $route_store, 'class' => 'form-horizontal']) !!} 
                         {{-- input fields --}}
