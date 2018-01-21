@@ -67,14 +67,15 @@ class ArticleController extends Controller
      */
     public function store(ArticleRequest $request)
     {
+        $title = $request->input['title'];
         if ($this->canCreate()) {
             if (Article::storeRequest($request)) {
                 return redirect()->route($this->routes['index'])
-                    ->withSuccess($request->input['title'].' 保存成功！');
+                    ->withSuccess($title.' 保存成功！');
             }
         }
         return redirect()->back()->withInput()
-            ->withErrors($article->title.' 保存失败！');
+            ->withErrors($title.' 保存失败！');
     }
 
     /**

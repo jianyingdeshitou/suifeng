@@ -22,9 +22,9 @@ class Article extends Model
     {
         $article = new Article;
         $article->fill([
+                'user_id' => Auth::id(),
                 'title' => $request->input('title'),
                 'content' => $request->input('content'),
-                'user_id' => Auth::id(),
                 'published' => $request->input('published'),
             ]);
         return $article->save();

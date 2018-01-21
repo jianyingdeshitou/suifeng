@@ -30,7 +30,7 @@
     	{{-- 具有更新权限 --}}
 		@can('update', $article)
 			{{-- 编辑按钮 --}}
-			<a href="{{ route($routes['edit'], ['id' => $article->id]) }}" class="btn btn-primary">
+			<a href="{{ route($routes['edit'], ['id' => $article->id]) }}" class="btn btn-info">
 				<span class="glyphicon glyphicon-edit"></span> 编辑
 			</a>
 		@endcan

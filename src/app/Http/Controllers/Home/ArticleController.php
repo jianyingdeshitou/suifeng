@@ -21,8 +21,7 @@ class ArticleController extends BaseArticleController
         'update' => 'my-article.update',   
         'destroy' => 'my-article.destroy',   
     ];
-
-
+    
     /**
      * Create a new controller instance.
      *

@@ -51,9 +51,16 @@
                                 @endif
                             </td> --}}
                             <td>
-                                <a href="/admin/tag/{{ $tag->id }}/edit" class="btn btn-xs btn-info">
-                                    <i class="fa fa-edit"></i> Edit
+                                <a href="{{ route('tag.edit', $tag->id) }}" class="btn btn-info">
+                                    <span class="glyphicon glyphicon-edit"></span> Edit
                                 </a>
+                                            {{-- 删除按钮 --}}
+                                @include('partials.form.btn_delete', 
+                                [
+                                    'url' => route('tag.destroy', $tag->id),
+                                    'icon' => '<span class="glyphicon glyphicon-remove-sign"></span> ',
+                                    'text' => '删除',
+                                ])
                             </td>
                         </tr>
                     @endforeach
