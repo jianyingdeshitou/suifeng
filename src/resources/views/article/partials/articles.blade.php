@@ -2,12 +2,9 @@
 {{-- 已登录 --}}
 @auth()
 	{{-- 新增按钮 --}}
-	@include('partials.html.btn_primary', 
-	[
-		'url' => route($route_create),
-		'icon' =>  '<span class="glyphicon glyphicon-plus-sign"></span> ',
-		'text' => '新增',
-	])
+	<a href="{{ route($routes['create']) }}" class="btn btn-primary">
+		<span class="glyphicon glyphicon-plus-sign"></span> 新增
+	</a>
 @endauth
 </div>
 
@@ -18,7 +15,7 @@
 	@foreach ($articles as $article)
 	    <div>
 	    	{{-- 标题 --}}
-	        <a href="{{ route($route_show, ['id' => $article->id]) }}">
+	        <a href="{{ route($routes['show'], ['id' => $article->id]) }}">
 	        	<h3> {{ $article->title }} </h3>
 	        </a>
 	        @isset ($article->published_at)
@@ -33,19 +30,16 @@
     	{{-- 具有更新权限 --}}
 		@can('update', $article)
 			{{-- 编辑按钮 --}}
-			@include('partials.html.btn_primary', 
-			[
-				'url' => route($route_edit, ['id' => $article->id]),
-				'icon' => '<span class="glyphicon glyphicon-edit"></span> ',
-				'text' => '编辑',
-			])
+			<a href="{{ route($routes['edit'], ['id' => $article->id]) }}" class="btn btn-primary">
+				<span class="glyphicon glyphicon-edit"></span> 编辑
+			</a>
 		@endcan
 		{{-- 具有删除权限 --}}
 		@can('delete', $article)
 			{{-- 删除按钮 --}}
 			@include('partials.form.btn_delete', 
 			[
-				'url' => route($route_destroy, ['id' => $article->id]),
+				'url' => route($routes['destroy'], ['id' => $article->id]),
 				'icon' => '<span class="glyphicon glyphicon-remove-sign"></span> ',
 				'text' => '删除',
 			])

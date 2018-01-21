@@ -21,7 +21,8 @@ Route::resource('article', 'ArticleController');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-
+// home
 Route::prefix('home')->namespace('Home')->group( function () {
 	Route::resource('my-article', 'ArticleController');
+	Route::resource('tag', 'TagController');
 });

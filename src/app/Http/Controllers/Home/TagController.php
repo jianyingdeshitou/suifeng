@@ -5,8 +5,20 @@ namespace App\Http\Controllers\Home;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use App\Tag;
+
 class TagController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +27,7 @@ class TagController extends Controller
     public function index()
     {
 	    $tags = Tag::all();
-	    return view('home.tag.index')->with(['tags' => $tags]);
+	    return view('tag.index')->with(['tags' => $tags]);
     }
 
     /**
@@ -25,7 +37,15 @@ class TagController extends Controller
      */
     public function create()
     {
-        //
+        $tag = new Tag;
+        $tag->fill([
+            'tag' => '',
+            'title' => '',
+            'subtitle' => '',
+            'meta_description' => '',
+            'page_image' => '',
+        ]);
+        return view('tag.create')->with(['tag' => $tag]);
     }
 
     /**

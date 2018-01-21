@@ -21,7 +21,7 @@ class CreateTagsTable extends Migration
             $table->string('page_image')->comment('标签图片');
             $table->string('meta_description')->comment('标签介绍');
             $table->string('layout')->default('layouts.app')->comment('页面布局');
-            $table->boolean('reverse_direction')->comment('按时间升序排列（默认是降序）');
+            $table->boolean('reverse_direction')->default(false)->comment('按时间升序排列（默认是降序）');
             $table->timestamps();
         });
     }

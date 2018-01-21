@@ -4,21 +4,24 @@ namespace App\Http\Controllers\Home;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\ArticleController as BaseController;
+use App\Http\Controllers\ArticleController as BaseArticleController;
 use Illuminate\Support\Facades\Auth;
 
 use App\Article;
 use App\Http\Requests\ArticleRequest;
 
-class ArticleController extends BaseController
+class ArticleController extends BaseArticleController
 {
-    protected $route_index = 'my-article.index';
-    protected $route_create = 'my-article.create';
-    protected $route_store = 'my-article.store';
-    protected $route_show = 'my-article.show';
-    protected $route_edit = 'my-article.edit';
-    protected $route_update = 'my-article.update';
-    protected $route_destroy = 'my-article.destroy';
+    protected $routes = [
+        'index' => 'my-article.index',
+        'create' => 'my-article.create',
+        'store' => 'my-article.store',
+        'show' => 'my-article.show',
+        'edit' => 'my-article.edit',
+        'update' => 'my-article.update',   
+        'destroy' => 'my-article.destroy',   
+    ];
+
 
     /**
      * Create a new controller instance.
@@ -42,10 +45,7 @@ class ArticleController extends BaseController
             ->paginate(15);
        return view('article.index')->with([
             'articles' => $articles,
-            'route_create' => $this->route_create,
-            'route_show' => $this->route_show,
-            'route_edit' => $this->route_edit,
-            'route_destroy' => $this->route_destroy,
+            'routes' => $this->routes,
         ]);
     }
 

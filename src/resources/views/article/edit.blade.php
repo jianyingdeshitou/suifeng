@@ -8,23 +8,22 @@
                 <div class="panel-heading"><h2>Edit Article</h2></div>
 
                 <div class="panel-body">
-                    {{-- 编辑文章 --}}
-                    {!! Form::model($article, ['route' => [$route_update, $article->id], 'method'=>'PUT','class' => 'form-horizontal']) !!} 
+                    {{-- form --}}
+                    <form action="{{ route($routes['update'], $article->id) }}" method="POST" class="form-horizontal">
+                        {{ csrf_field() }}
+                        {{ method_field('PUT') }}
                         {{-- input fields --}}
                         @include('article.partials.input_article')
                         {{-- 按钮 --}}
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-2">
                                 {{-- 更新按钮 --}}
-                                @include('partials.form.btn_submit', 
-                                    [
-                                        'icon' => '<span class="glyphicon glyphicon-save"></span> ',
-                                        'text' => '更新',
-                                        'class' => 'btn btn-primary ',
-                                    ])
+                                <button type="submit" class="btn btn-primary">
+                                    <span class="glyphicon glyphicon-save"></span> 更新
+                                </button>
                             </div>
                         </div>
-                    {!! Form::close() !!} 
+                    </form>
                 </div>
             </div>
         </div>
