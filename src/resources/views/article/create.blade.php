@@ -5,32 +5,26 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading"><h2>New Article</h2></div>
+                <div class="panel-heading">
+                    <h2>New Article</h2>
+                </div>
 
                 <div class="panel-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-                    
                     {{-- 新增文章 --}}
-                    {!! Form::open(['route' => $route_store, 'class' => 'form-horizontal']) !!} 
+                    <form action="{{ route($routes['store']) }}" method="POST" class="form-horizontal">
+                        {{ csrf_field() }}
                         {{-- input fields --}}
                         @include('article.partials.input_article')
                         {{-- 按钮 --}}
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-2">
                                 {{-- 新增按钮 --}}
-                                @include('partials.form.btn_submit', 
-                                    [
-                                        'icon' => '<span class="glyphicon glyphicon-plus-sign"></span> ',
-                                        'text' => '新增',
-                                        'class' => 'btn btn-primary ',
-                                    ])
+                                <button type="submit" class="btn btn-primary">
+                                    <span class="glyphicon glyphicon-plus-sign"></span> 新增
+                                </button>
                             </div>
                         </div>
-                    {!! Form::close() !!} 
+                    </form>
                 </div>
             </div>
         </div>

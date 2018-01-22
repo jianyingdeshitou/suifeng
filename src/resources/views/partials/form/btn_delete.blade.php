@@ -1,8 +1,9 @@
-{!! Form::open(['url' => $url, 'method' => 'DELETE', 'style' => 'display: inline;']) !!}
-	@include('partials.form.btn_submit', 
-		[
-			'icon' => $icon,
-			'text' => $text,
-			'class' => 'btn btn-danger',
-		])
-{!! Form::close() !!}
+<form action="{{ $url }}" method="POST" style="display: inline;">
+    {{ csrf_field() }}
+    {{ method_field('DELETE') }}
+	{{-- delete --}}
+	<button type="submit" class="btn btn-danger">
+	    {!! $icon !!}
+	    {{ $text }}
+	</button>
+</form>

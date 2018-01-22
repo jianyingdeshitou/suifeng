@@ -1,1 +1,0 @@
-<a href="{{ $url }}" class="btn btn-primary">{!! $icon !!} {{ $text }}</a>
