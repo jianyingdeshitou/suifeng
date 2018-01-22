@@ -42,11 +42,11 @@ class TagController extends Controller
     {
         $tag = new Tag;
         $tag->fill([
-            'tag' => old('tag') ?: '',
-            'title' => old('title') ?: '',
-            'subtitle' => old('subtitle') ?: '',
-            'meta_description' => old('meta_description') ?: '',
-            'page_image' => old('page_image') ?: '',
+            'tag' => '',
+            'title' => '',
+            'subtitle' => '',
+            'meta_description' => '',
+            'page_image' => '',
         ]);
         return view('tag.create')->with(['tag' => $tag]);
     }
@@ -91,9 +91,7 @@ class TagController extends Controller
     {
         $tag = Tag::findOrFail($id);
         if ($this->canUpdate($tag)) {
-            return view('tag.edit')->with([
-                'tag' => $tag,
-            ]);
+            return view('tag.edit')->with(['tag' => $tag]);
         }
         abort(404);
     }
