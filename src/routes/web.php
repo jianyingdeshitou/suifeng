@@ -25,4 +25,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::prefix('home')->namespace('Home')->group( function () {
 	Route::resource('my-article', 'ArticleController');
 	Route::resource('tag', 'TagController', ['except' => 'show']);
+
+	Route::get('upload', 'UploadController@index')->name('upload.index');
+	Route::post('upload/file', 'UploadController@uploadFile')->name('upload.file');
+	Route::delete('upload/file', 'UploadController@deleteFile');
+	Route::post('upload/folder', 'UploadController@createFolder')->name('upload.folder');
+	Route::delete('upload/folder', 'UploadController@deleteFolder');
 });

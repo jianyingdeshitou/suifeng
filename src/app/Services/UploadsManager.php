@@ -11,6 +11,26 @@ class UploadsManager
     protected $disk;
     protected $mimeDetect;
 
+
+    /**
+     * 返回可读性更好的文件尺寸
+     */
+    public static function human_filesize($bytes, $decimals = 2)
+    {
+        $size = ['B', 'kB', 'MB', 'GB', 'TB', 'PB'];
+        $factor = floor((strlen($bytes) - 1) / 3);
+
+        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) .@$size[$factor];
+    }
+
+    /**
+     * 判断文件的MIME类型是否为图片
+     */
+    public static function is_image($mimeType)
+    {
+        return starts_with($mimeType, 'image/');
+    }
+
     public function __construct(PhpRepository $mimeDetect)
     {
         $this->disk = Storage::disk('public');
@@ -93,13 +113,16 @@ class UploadsManager
     protected function fileDetails($path)
     { 
         $path = '/' . ltrim($path, '/');
-
+        $size = $this->fileSize($path);
+        $mimeType = $this->fileMimeType($path);
         return [
             'name' => basename($path),
             'fullPath' => $path,
             'webPath' => $this->fileWebpath($path),
-            'mimeType' => $this->fileMimeType($path),
-            'size' => $this->fileSize($path),
+            'mimeType' => $mimeType,
+            'is_image' => UploadsManager::is_image($mimeType),
+            'size' => $size,
+            'human_filesize' => UploadsManager::human_filesize($size),
             'modified' => $this->fileModified($path),
         ];
     }
@@ -109,8 +132,8 @@ class UploadsManager
      */
     public function fileWebpath($path)
     { 
-        $path = rtrim(config('blog.uploads.webpath'), '/') . '/' .ltrim($path, '/');
-        return url($path);
+        // $path = rtrim(config('blog.uploads.webpath'), '/') . '/' .ltrim($path, '/');
+        return $this->disk->url($path);
     }
 
     /**
@@ -139,5 +162,65 @@ class UploadsManager
         return Carbon::createFromTimestamp(
             $this->disk->lastModified($path)
         );
+    }
+
+    /**
+     * 创建新目录
+     */
+    public function createDirectory($folder)
+    {
+        $folder = $this->cleanFolder($folder);
+
+        if ($this->disk->exists($folder)) {
+            return "Folder '$folder' already exists.";
+        }
+
+        return $this->disk->makeDirectory($folder);
+    }
+
+    /**
+     * 删除目录
+     */
+    public function deleteDirectory($folder)
+    {
+        $folder = $this->cleanFolder($folder);
+
+        $filesFolders = array_merge(
+            $this->disk->directories($folder),
+            $this->disk->files($folder)
+        );
+        if (! empty($filesFolders)) {
+            return "Directory must be empty to delete it.";
+        }
+
+        return $this->disk->deleteDirectory($folder);
+    }
+
+    /**
+     * 删除文件
+     */
+    public function deleteFile($path)
+    {
+        $path = $this->cleanFolder($path);
+
+        if (! $this->disk->exists($path)) {
+            return "File does not exist.";
+        }
+
+        return $this->disk->delete($path);
+    }
+
+    /**
+     * 保存文件
+     */
+    public function saveFile($path, $content)
+    {
+        $path = $this->cleanFolder($path);
+
+        if ($this->disk->exists($path)) {
+            return "File already exists.";
+        }
+
+        return $this->disk->put($path, $content);
     }
 }
